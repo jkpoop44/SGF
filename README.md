@@ -1,12 +1,12 @@
 # SGF
 
-It's fan game of Girls Frontline.
-Plus my first project .
+It's fan game of Girls Frontline/n
+Plus my first project
 
 
-The rules are Very simple.
-Just shoot so that the enemy does not come to the left.
-Using items will make it easier.
+The rules are Very simple/n
+Just shoot so that the enemy does not come to the left/n
+Using items will make it easier
 
 Control
 
@@ -18,9 +18,9 @@ Press S to start
 
 in Game
 
-Shoot : S
-Grenade : A
-SmokeGrenade : D
+Shoot : S/n
+Grenade : A/n
+SmokeGrenade : D/n
 Move : Arrow keys
 
 
