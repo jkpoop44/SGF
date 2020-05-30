@@ -22,7 +22,7 @@ pg.init()
 time_delay = 0
 clock = pg.time.Clock()
 FPS = 23
-speed = 8
+
 main_run = True
 right = False
 left = False
@@ -44,7 +44,7 @@ def reset():
         dragoonXY,dragoon_num,dragoondieXY,dragoon_die_num,grenadeXY,stard_rect,drd_rect,jd_rect,bullet,\
         smoke_done, smoke_cooltime,smoke_img,smomke_img_rect,prd_rect,prowlerXY,prowler_num,\
         prowlerdieXY,prowler_die_num,skill_done,cooltime,gud_rect,guardXY,guard_num,guarddieXY,\
-        guard_die_num,jae_reroll,pro_reroll,grenade_boom_img_rect
+        guard_die_num,jae_reroll,pro_reroll,grenade_boom_img_rect,speed
 
     sop_x = 0
     sop_y = 100
@@ -83,7 +83,7 @@ def reset():
     guard_die_num = 0
 
     score = 0
-    e_speed = 3
+    e_speed = screen_width*0.004
     pause = False
     life = 3
     grenadeXY = []
@@ -130,6 +130,8 @@ def reset():
 
     grenade_boom_img = pg.transform.scale(grenade_boom_ori, ((int(screen_width*0.3), int(screen_width*0.3*grenade_boom_rect.height/grenade_boom_rect.width))))
     grenade_boom_img_rect = grenade_boom_img.get_rect().size
+
+    speed = screen_width*0.01
 
 # Monitor info
 monitor = pg.display.Info()
@@ -343,16 +345,18 @@ def Pause():
 def Speed():
     global e_speed
     if 100 >= score >= 25:
-        if e_speed < 7:
-            e_speed = 3+((score-25)/20)
+        if e_speed < screen_width*0.009:
+            e_speed = screen_width*(0.004 + (score-25)/20*0.0016)
         else:
-            e_speed = 7
+            e_speed = screen_width*0.009
     if score > 100:
-        if e_speed < 9:
-            e_speed = 6+((score-100)/120)
+        if e_speed < screen_width*0.011:
+            e_speed = screen_width*(0.009 + 0.0012*((score-100)/120))
         else:
-            e_speed = 9
-        
+            e_speed = screen_width*0.011
+
+    print(e_speed)
+
 # Game over
 def Game_over():
     global life, score,high_score
@@ -894,7 +898,7 @@ def Bullet_def():
     global bulletXY,score
     if len(bulletXY) != 0:
         for k,bxy in enumerate(bulletXY):
-            bxy[0] += 25
+            bxy[0] += int(screen_width/32)
             bulletXY[k][0] = bxy[0]
             if bxy[0] > screen_width:
                 try:
@@ -921,7 +925,7 @@ def Grenade():
     line_2 = default_font.render(f'쿨다운 : {round(100-cooltime,1)}',True,WHITE,GREY)
     if len(grenadeXY) != 0:
         for gre, grexy in enumerate(grenadeXY):
-            grexy[0] += 50
+            grexy[0] += int(screen_width/16)
             grenadeXY[gre][0] =grexy[0]
             if grexy[0] > screen_width - grenade_boom_img_rect[0]:
                 gredX = grexy[0] - grenade_boom_img_rect[0]*0.6
@@ -1506,7 +1510,7 @@ def main_loop():
     background_img()
     background = fourth
     battle = bridge
-    screen = pg.display.set_mode((screen_width,screen_height))
+    screen = pg.display.set_mode((screen_width,screen_height),pg.HWSURFACE | pg.DOUBLEBUF)
     pg.display.update()
 
     while main_run:
@@ -1578,7 +1582,7 @@ def main_loop():
                                     pg.quit()
                                     break
                         screen_height = int(screen_width*0.45)
-                        screen = pg.display.set_mode((screen_width,screen_height))
+                        screen = pg.display.set_mode((screen_width,screen_height),pg.HWSURFACE | pg.DOUBLEBUF)
                         screen.blit(setline_1,(20,20))
                         screen.blit(setline_2,(20,40))
                         screen.blit(setline_3,(20,80))
